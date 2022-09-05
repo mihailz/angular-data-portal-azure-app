@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/042c9292-7ef2-4fed-a694-fd3a6fd93dbe/microsoft.web/sites/subscriptions/042c9292-7ef2-4fed-a694-fd3a6fd93dbe/resourceGroups/TableDataPortal_group/providers/Microsoft.Web/sites/TableDataPortal",
+    "appService.deploySubpath": "dist"
+}

@@ -106,6 +106,5 @@
         }
       }
     }
-  },
-  "defaultProject": "azure-table-data-portal-app"
+  }
 }

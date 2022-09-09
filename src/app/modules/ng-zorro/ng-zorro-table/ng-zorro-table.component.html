@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="table-actions">
+    <button nz-button nzType="primary" nzSize="large" (click)="navigateToUpdateTablePage()">Update</button>
+  </div>
+  <nz-table #dataTable [nzData]="tableData" [nzLoading]="isFetchingData" [nzScroll]="{x: '800px'}" [nzShowSizeChanger]="true">
+    <thead>
+      <tr>
+        <th [nzSortFn]="column.sortFn ? column.sortFn : null" *ngFor="let column of tableColumns">{{column.label}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of dataTable.data">
+        <ng-container *ngFor="let column of tableColumns">
+          <td>{{user[column.key]}}</td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+

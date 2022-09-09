@@ -1,0 +1,37 @@
+<div *nzModalTitle>
+  <p class="modal-title">Add paragraph</p>
+</div>
+
+<div class="modal-content">
+  <form nz-form [formGroup]="userFormGroup">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="24" nzFor="name">Name</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="Name is required!">
+        <input nz-input id="name" formControlName="name">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="24" nzFor="username">Surname</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="Surname is required!">
+        <input nz-input id="username" formControlName="surname">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="24" nzFor="age">Age</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="Age is required!">
+        <input nz-input id="age" formControlName="age">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="24" nzFor="email">Email</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="Email is required!">
+        <input nz-input id="email" formControlName="email">
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+
+<div *nzModalFooter>
+  <button nz-button nzType="default" (click)="closeModal()">Close</button>
+  <button nz-button nzType="primary" (click)="addTableRow()">Add paragraph</button>
+</div>

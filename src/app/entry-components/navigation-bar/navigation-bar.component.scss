@@ -1,0 +1,20 @@
+.navigation-bar-container {
+    width: 100%;
+    background-color: #0275d8;
+    padding: 20px;
+    .nav-list {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        .nav-list-item {
+            padding: 8px;
+            .nav-list-link {
+                text-transform: uppercase;
+                font-weight: bolder;
+                color: white;
+            }
+        }
+    }
+}

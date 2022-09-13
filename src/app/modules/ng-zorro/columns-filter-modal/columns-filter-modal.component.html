@@ -1,0 +1,19 @@
+<div *nzModalTitle>
+  <p class="modal-title">Columns filter</p>
+</div>
+
+<div class="modal-content">
+  <p class="description">Uncheck the columns you want to hide</p>
+  <div class="columns-container">
+    <nz-checkbox-wrapper (nzOnChange)="onCheckboxesCheckedStatusChange($event)">
+        <div class="checkboxes-wrapper">
+          <label *ngFor="let column of tableColumns" nz-checkbox [nzChecked]="column.checked" [nzValue]="column.key">{{column.label}}</label>
+        </div>
+    </nz-checkbox-wrapper>
+  </div>
+</div>
+
+<div *nzModalFooter>
+  <button nz-button nzType="primary" nzSize="large" (click)="applyFilter()">Apply</button>
+  <button nz-button nzType="default" nzSize="large" (click)="closeModal()">Cancel</button>
+</div>

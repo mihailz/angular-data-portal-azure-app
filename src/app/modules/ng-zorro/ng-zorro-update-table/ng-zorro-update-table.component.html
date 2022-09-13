@@ -8,10 +8,10 @@
     </button>
   </div>
   <div class="table-container">
-    <nz-table #dataTable [nzData]="tableData" [nzPageSize]="10" [nzScroll]="{x: '800px'}" [nzShowSizeChanger]="true">
+    <nz-table #dataTable [nzData]="filteredTableRows" [nzPageSize]="10" [nzScroll]="{x: '800px'}" [nzShowSizeChanger]="true">
       <thead>
         <tr>
-          <th></th>
+          <th [nzChecked]="false" (nzCheckedChange)="onCheckAll($event)">Check all</th>
           <th [nzSortFn]="column.sortFn ? column.sortFn : false" *ngFor="let column of tableColumns">
             {{ column.label }}
           </th>
@@ -21,12 +21,12 @@
       <tbody>
         <ng-container [formGroup]="userFormGroup">
           <ng-container formArrayName="users">
-            <tr *ngFor="let user of dataTable.data; let i = index">
-              <td [nzChecked]="checked" (nzCheckedChange)="onTableRowChecked(i, $event)"></td>
+            <tr *ngFor="let row of dataTable.data; let i = index">
+              <td [nzChecked]="row['checked']" (nzCheckedChange)="onTableRowChecked(i, $event)"></td>
               <ng-container [formGroupName]="i">
                 <ng-container *ngFor="let column of tableColumns">
-                  <ng-container *ngIf="!user.isUpdating; else updateCell">
-                    <td>{{ user[column.key] }}</td>
+                  <ng-container *ngIf="!row.isUpdating; else updateCell">
+                    <td>{{ row[column.key] }}</td>
                   </ng-container>
                   <ng-template #updateCell>
                     <td>
@@ -40,13 +40,13 @@
                   </ng-template>
                 </ng-container>
                 <td class="actions-cell-container">
-                  <button *ngIf="!user.isUpdating" nz-button nzType="link" nzSize="large" (click)="goInEditMode(i)">
+                  <button *ngIf="!row.isUpdating" nz-button nzType="link" nzSize="large" (click)="goInEditMode(i)">
                     Edit
                   </button>
-                  <button *ngIf="user.isUpdating" nz-button nzType="link" nzSize="large" (click)="exitRowEditMode(i)">
+                  <button *ngIf="row.isUpdating" nz-button nzType="link" nzSize="large" (click)="exitRowEditMode(i)">
                     Back
                   </button>
-                  <button *ngIf="user.isUpdating" nz-button nzType="link" nzSize="large" (click)="updateRowData(i)">
+                  <button *ngIf="row.isUpdating" nz-button nzType="link" nzSize="large" (click)="updateRowData(i)">
                     Update
                   </button>
                   <button nz-button nzType="link" nzSize="large" (click)="deleteRow(i)">Delete</button>

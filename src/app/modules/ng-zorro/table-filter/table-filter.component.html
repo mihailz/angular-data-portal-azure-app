@@ -1,0 +1,28 @@
+<div class="table-filter-container">
+  <div class="filter-action">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input
+        (change)="onSearch($event)"
+        class="search-input"
+        type="text"
+        nz-input
+        placeholder="Search here..."
+      />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch>
+        <span nz-icon nzType="search"></span>
+      </button>
+    </ng-template>
+  </div>
+  <div class="filter-action">
+    <button nz-button nzType="primary" nzSearch>
+      <span
+        nz-icon
+        nzType="eye"
+        nzTheme="outline"
+        (click)="openColumnsFilterModal()"
+      ></span>
+    </button>
+  </div>
+</div>

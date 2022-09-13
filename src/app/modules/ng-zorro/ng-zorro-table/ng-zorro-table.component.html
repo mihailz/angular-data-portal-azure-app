@@ -2,16 +2,23 @@
   <div class="table-actions">
     <button nz-button nzType="primary" nzSize="large" (click)="navigateToUpdateTablePage()">Update</button>
   </div>
-  <nz-table #dataTable [nzData]="tableData" [nzLoading]="isFetchingData" [nzScroll]="{x: '800px'}" [nzShowSizeChanger]="true">
+  <div class="table-filter-wrapper">
+    <app-table-filter [tableColumns]="tableColumns" (onSearchEvent)="onDataSearch($event)"></app-table-filter>
+  </div>
+  <nz-table #dataTable [nzData]="filteredTableData" [nzLoading]="isFetchingData" [nzScroll]="{x: '800px'}" [nzShowSizeChanger]="true">
     <thead>
       <tr>
-        <th [nzSortFn]="column.sortFn ? column.sortFn : null" *ngFor="let column of tableColumns">{{column.label}}</th>
+        <ng-container *ngFor="let column of tableColumns">
+          <th *ngIf="column.checked" [nzSortFn]="column.sortFn ? column.sortFn : null" >
+            {{column.label}}
+          </th>
+        </ng-container>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let user of dataTable.data">
         <ng-container *ngFor="let column of tableColumns">
-          <td>{{user[column.key]}}</td>
+          <td *ngIf="column.checked">{{user[column.key]}}</td>
         </ng-container>
       </tr>
     </tbody>

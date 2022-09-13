@@ -1,16 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { map, Subscription } from 'rxjs';
 import { ColumnType, TableColumn } from 'src/app/model/table-column';
 import { User } from 'src/app/model/user';
 import { TableDataMockService } from 'src/app/service/table-data-mock.service';
-import {NzModalService} from "ng-zorro-antd/modal";
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddTableRowModalComponent } from './add-table-row-modal/add-table-row-modal.component';
 
 @Component({
@@ -20,8 +15,9 @@ import { AddTableRowModalComponent } from './add-table-row-modal/add-table-row-m
 })
 export class NgZorroUpdateTableComponent implements OnInit, OnDestroy {
   isFetchingData: boolean = false;
-  tableData: any;
-  tableColumns: TableColumn<User>[] = [];
+  tableRows: any;
+  filteredTableRows: any;
+  tableColumns: TableColumn[] = [];
   userFormGroup!: FormGroup;
   columnType = ColumnType;
   checked = false;
@@ -60,8 +56,12 @@ export class NgZorroUpdateTableComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (tableData: User[]) => {
           this.isFetchingData = false;
-          this.tableData = tableData;
-          this.initFormArray(this.tableData);
+          this.tableRows = tableData;
+          this.filteredTableRows = [...this.tableRows];
+          this.filteredTableRows.forEach((tableRow: any) => {
+            tableRow.checked = false;
+          });
+          this.initFormArray(this.filteredTableRows);
           this.initTableColumns();
         },
         error: (error: any) => {
@@ -96,11 +96,11 @@ export class NgZorroUpdateTableComponent implements OnInit, OnDestroy {
   }
 
   goInEditMode(rowIndex: number): void {
-    this.tableData[rowIndex].isUpdating = true;
+    this.filteredTableRows[rowIndex].isUpdating = true;
   }
 
   exitRowEditMode(rowIndex: number): void {
-    this.tableData[rowIndex].isUpdating = false;
+    this.filteredTableRows[rowIndex].isUpdating = false;
   }
 
   deleteRow(rowIndex: number): void {
@@ -124,28 +124,42 @@ export class NgZorroUpdateTableComponent implements OnInit, OnDestroy {
       const age = updatedUserRowGroupControlls['age'].value;
       const email = updatedUserRowGroupControlls['email'].value;
 
-      const updatedDataRow: User = new User(
-        userName, surname, age, email
-      );
+      const updatedDataRow: User = new User(userName, surname, age, email);
 
       this.tableDataMockService.updateTableRow(rowIndex, updatedDataRow);
     }
   }
 
   openAddTableRowModal(): void {
-      this.nzModalService.create({
-        nzContent: AddTableRowModalComponent,
-        nzFooter: null
-      });
+    this.nzModalService.create({
+      nzContent: AddTableRowModalComponent,
+      nzFooter: null,
+    });
   }
 
   onTableRowChecked(rowIndex: number, checked: boolean): void {
-      if (checked) {
-        this.checkedDataTableRows.push(this.tableData[rowIndex]);
-      } else {
-        this.checkedDataTableRows.splice(rowIndex, 1);
-      }
-      console.log('onTableRowChecked: ', this.checkedDataTableRows);
+    if (checked) {
+      this.checkedDataTableRows.push(this.filteredTableRows[rowIndex]);
+      console.log('onTableRowChecked - checkedDataTableRows: ', this.checkedDataTableRows);
+    } else {
+      this.checkedDataTableRows.splice(rowIndex, 1);
+      console.log('onTableRowChecked - checkedDataTableRows: ', this.checkedDataTableRows);
+    }
+  }
+
+  onCheckAll(checked: boolean): void {
+    if (checked) {
+      this.filteredTableRows.map((dataRow: any) => {
+        dataRow.checked = true;
+      });
+      this.checkedDataTableRows = [...this.filteredTableRows];
+    } else {
+      this.filteredTableRows.map((dataRow: any) => {
+        dataRow.checked = false;
+      });
+      this.checkedDataTableRows = [];
+    }
+    console.log('onCheckAll - checkedDataTableRows: ', this.checkedDataTableRows);
   }
 
   private initTableColumns(): void {
@@ -154,6 +168,7 @@ export class NgZorroUpdateTableComponent implements OnInit, OnDestroy {
         key: 'name',
         label: 'Name',
         columnType: ColumnType.STRING,
+        checked: false,
         sortFn: (userA: User, userB: User) =>
           userA.name.localeCompare(userB.name),
       },
@@ -161,6 +176,7 @@ export class NgZorroUpdateTableComponent implements OnInit, OnDestroy {
         key: 'surname',
         label: 'Surname',
         columnType: ColumnType.STRING,
+        checked: false,
         sortFn: (userA: User, userB: User) =>
           userA.surname.localeCompare(userB.surname),
       },
@@ -168,12 +184,14 @@ export class NgZorroUpdateTableComponent implements OnInit, OnDestroy {
         key: 'age',
         label: 'Age',
         columnType: ColumnType.NUMBER,
+        checked: false,
         sortFn: (userA: User, userB: User) => userA.age - userB.age,
       },
       {
         key: 'email',
         label: 'E-mail',
         columnType: ColumnType.STRING,
+        checked: false,
         sortFn: (userA: User, userB: User) =>
           userA.email.localeCompare(userB.email),
       },

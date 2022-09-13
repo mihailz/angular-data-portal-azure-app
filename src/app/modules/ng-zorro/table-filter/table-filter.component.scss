@@ -1,0 +1,10 @@
+.table-filter-container {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  .search-input {
+    width: 140px;
+  }
+}

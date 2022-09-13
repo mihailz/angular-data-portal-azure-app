@@ -9,17 +9,21 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { TableFilterComponent } from './ng-zorro-table/table-filter/table-filter.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { TableFilterComponent } from './table-filter/table-filter.component';
+import { ColumnsFilterModalComponent } from './columns-filter-modal/columns-filter-modal.component';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @NgModule({
   declarations: [
     NgZorroTableComponent,
     NgZorroUpdateTableComponent,
     AddTableRowModalComponent,
-    TableFilterComponent
+    TableFilterComponent,
+    ColumnsFilterModalComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +36,9 @@ import { TableFilterComponent } from './ng-zorro-table/table-filter/table-filter
     ReactiveFormsModule,
     NzFormModule,
     NzModalModule,
-    NzFormModule
+    NzIconModule,
+    NzCheckboxModule,
+    FormsModule
   ],
   providers: [
     NzModalService
